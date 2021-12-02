@@ -10,18 +10,11 @@ fun main() {
     /*
     counts the total number of times a 3-wide sum increased from the previous sum
      */
-    fun part2(input: List<String>): Int {
-        var last = Integer.MAX_VALUE
-        var result = 0
-        for (index in 0..input.size-3) {
-            val sum = input[index].toInt() + input[index+1].toInt() + input[index+2].toInt()
-            if (sum > last) {
-                result++
-            }
-            last = sum
+    fun part2(input: List<String>): Int =
+        input.map(String::toInt).run{
+            var last = Integer.MAX_VALUE
+            (0..input.size-3).count { val s = this[it]+this[it+1]+this[it+2]; val p = s > last; last = s; p }
         }
-        return result
-    }
 
     // test if implementation meets criteria from the description, like:
     val testInput = readInput("Day01_test")
