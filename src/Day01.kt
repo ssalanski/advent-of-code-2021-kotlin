@@ -4,14 +4,7 @@ fun main() {
      */
     fun part1(input: List<String>): Int {
         var last = Integer.MAX_VALUE
-        var result = 0
-        for (measurement in input) {
-            if (measurement.toInt() > last) {
-                result++
-            }
-            last = measurement.toInt()
-        }
-        return result
+        return input.map(String::toInt).count { val p = it > last; last = it; p }
     }
 
     /*
