@@ -1,10 +1,10 @@
 fun main() {
     fun part1(input: List<String>): Int {
-        List<Int> differentials = new ArrayList<>(input[0].size)
+        var differentials : ArrayList<Int> = ArrayList(input[0].length)
         input.forEach { line ->
             line.forEachIndexed { i, v -> 
                 differentials[i] += 
-                    if v == '1'
+                    if (v == '1')
                         1
                     else
                         -1
@@ -13,10 +13,10 @@ fun main() {
         var gamma = 0
         var epsilon = 0
         differentials.reversed().forEachIndexed { i, d ->
-            if d > 0
-                gamma |= 1<<i
+            if( d > 0)
+                gamma = gamma or 1 shl i
             else
-                epsilon |= 1<<i
+                epsilon = epsilon or 1 shl i
         }
         return gamma * epsilon
     }
