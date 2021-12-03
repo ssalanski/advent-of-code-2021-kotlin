@@ -1,11 +1,16 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    application
     kotlin("jvm") version "1.6.0"
 }
 
 repositories {
     mavenCentral()
+}
+
+application {
+    mainClass.set("util.Runner")
 }
 
 tasks {
@@ -21,6 +26,7 @@ tasks {
 }
 dependencies {
   implementation(kotlin("stdlib-jdk8"))
+  implementation("org.reflections", "reflections", "0.9.12")
 }
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {

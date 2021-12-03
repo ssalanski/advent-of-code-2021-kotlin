@@ -1,5 +1,5 @@
-fun main() {
-    fun part1(input: List<String>): Int {
+class Day02 : Day(2) {
+    override fun part1(input: List<String>): Int {
         var horizontalPos = 0
         var depth = 0
         input.forEach { line ->
@@ -17,7 +17,7 @@ fun main() {
         return depth * horizontalPos
     }
 
-    fun part2(input: List<String>): Int {
+    override fun part2(input: List<String>): Int {
         var horizontalPos = 0
         var depth = 0
         var aim = 0
@@ -37,12 +37,11 @@ fun main() {
         return depth * horizontalPos
     }
 
-    // test if implementation meets criteria from the description, like:
-    val testInput = readInput("Day02_test")
-    check(part1(testInput) == 150)
-    check(part2(testInput) == 900)
-
-    val input = readInput("Day02")
-    println("part 1: ${part1(input)}")
-    println("part 2: ${part2(input)}")
+    override fun check() {
+        // test if implementation meets criteria from the description
+        val testInput = readInput("Day02_test")
+        check(part1(testInput) == 150)
+        check(part2(testInput) == 900)
+    }
+    
 }
