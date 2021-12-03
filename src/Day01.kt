@@ -17,11 +17,12 @@ class Day01 : Day(1) {
             (0..input.size-3).count { val s = this[it]+this[it+1]+this[it+2]; val p = s > last; last = s; p }
         }
 
-    override fun check() {
+    override fun check(input:List<String>): Boolean {
         // test if implementation meets criteria from the description
         val testInput = readInput("Day01_test")
-        check(part1(testInput) == 7)
-        check(part2(testInput) == 5)
+        var success = (part1(testInput) == 7)
+        success = success and (part2(testInput) == 5)
+        return success
     }
 
 }

@@ -37,11 +37,12 @@ class Day02 : Day(2) {
         return depth * horizontalPos
     }
 
-    override fun check() {
+    override fun check(input: List<String>): Boolean {
         // test if implementation meets criteria from the description
         val testInput = readInput("Day02_test")
-        check(part1(testInput) == 150)
-        check(part2(testInput) == 900)
+        var success = (part1(testInput) == 150)
+        success = success and (part2(testInput) == 900)
+        return success
     }
     
 }

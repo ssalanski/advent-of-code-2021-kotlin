@@ -48,8 +48,9 @@ object Runner {
         println("\n=== DAY ${dayNumber(dayClass.simpleName)} ===")
         val day = dayClass.constructors[0].newInstance() as Day
 
-        val testInput = readInput(dayClass.simpleName + "_test.txt")
-        val checkResult = measureTimedValue { day.check() }
+        val testInput = readInput(dayClass.simpleName + "_test")
+        val checkResult = measureTimedValue { day.check(testInput) }
+        println("Check: ${if(checkResult.value) "good" else "bad"}")
 
         val realInput = readInput(dayClass.simpleName)
         val partOne = measureTimedValue { day.part1(realInput) }
