@@ -1,5 +1,5 @@
-fun main() {
-    fun part1(input: List<String>): Int {
+class Day03 : Day(3) {
+    override fun part1(input: List<String>): Int {
         var differentials : ArrayList<Int> = ArrayList(input[0].length)
         input.forEach { line ->
             line.forEachIndexed { i, v -> 
@@ -21,16 +21,15 @@ fun main() {
         return gamma * epsilon
     }
 
-    fun part2(input: List<String>): Int {
+    override fun part2(input: List<String>): Int {
         return 0
     }
 
-    // test if implementation meets criteria from the description, like:
-    val testInput = readInput("Day03_test")
-    check(part1(testInput) == 198)
-    //check(part2(testInput) == 333)
-
-    val input = readInput("Day03")
-    println("part 1: ${part1(input)}")
-    println("part 2: ${part2(input)}")
+    override fun check(input: List<String>): Boolean {
+        // test if implementation meets criteria from the description
+        val testInput = readInput("Day03_test")
+        var success = (part1(testInput) == 198)
+        success = success and (part2(testInput) == 333)
+        return success
+    }
 }

@@ -26,7 +26,7 @@ tasks {
 }
 dependencies {
   implementation(kotlin("stdlib-jdk8"))
-  implementation("org.reflections", "reflections", "0.9.12")
+  implementation("org.reflections", "reflections", "0.9.11")
 }
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {

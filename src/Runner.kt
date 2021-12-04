@@ -68,5 +68,5 @@ object Runner {
         System.err.println("\n=== ERROR ===\n$message")
     }
 
-    private fun dayNumber(dayClassName: String) = dayClassName.replace("Day", "").toInt()
+    private fun dayNumber(dayClassName: String) = dayClassName.replace("Day", "").replaceFirst("^0+(?!$)","").toInt()
 }
