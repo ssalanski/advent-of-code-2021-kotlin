@@ -39,7 +39,7 @@ class Day07 : Day(7) {
   }
 
   override fun check1(input: List<String>): Boolean {
-    return (part1(input) == 0)
+    return (part1(input) == 37)
   }
 
   override fun check2(input: List<String>): Boolean {
