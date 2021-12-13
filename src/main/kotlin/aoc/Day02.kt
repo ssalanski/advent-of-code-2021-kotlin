@@ -1,3 +1,5 @@
+package aoc
+
 class Day02 : Day(2) {
     override fun part1(input: List<String>): Int {
         var horizontalPos = 0

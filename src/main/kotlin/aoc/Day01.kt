@@ -1,3 +1,5 @@
+package aoc
+
 class Day01 : Day(1) {
 
     /*

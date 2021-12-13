@@ -1,3 +1,5 @@
+package aoc
+
 abstract class Day(dayNumber: Int) {
 
     abstract fun part1(input: List<String>): Any

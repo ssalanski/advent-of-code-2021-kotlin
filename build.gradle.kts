@@ -10,7 +10,7 @@ repositories {
 }
 
 application {
-    mainClass.set("util.Runner")
+    mainClass.set("aoc.Runner")
 }
 
 tasks {

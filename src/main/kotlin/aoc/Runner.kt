@@ -1,3 +1,5 @@
+package aoc
+
 import Day
 import org.reflections.Reflections
 import kotlin.math.max
@@ -12,6 +14,8 @@ object Runner {
 
     @JvmStatic
     fun main(args: Array<String>) {
+
+        println(getAllDayClasses())
         if (args.isNotEmpty()) {
             val day = try {
                 args[0].toInt()
