@@ -9,13 +9,17 @@ class Day07 : Day(7) {
   }
 
   private fun calculateCost(positions: List<Int>, alignment: Int) : Int {
-    return positions.map{ it -> (it-alignment).absoluteValue }.sum()
+    return positions.sumOf { it -> (it - alignment).absoluteValue }
   }
 
-  private fun optimizeAlignment(positions: List<Int>): Int {
+  private fun calculatePart2Cost(positions: List<Int>, alignment: Int) : Int {
+    return positions.map { it -> (it - alignment).absoluteValue }.sumOf { (it * (it + 1) / 2) }
+  }
+
+  private fun optimizeAlignment(positions: List<Int>, costFunction: (List<Int>, Int) -> Int): Int {
     var bestCost = Int.MAX_VALUE
     for(x in positions.first()..positions.last()) {
-      val cost = calculateCost(positions,x)
+      val cost = costFunction(positions,x)
       if(cost<bestCost){
         bestCost = cost
       }
@@ -26,12 +30,12 @@ class Day07 : Day(7) {
 
   override fun part1(input: List<String>): Int {
     val sortedPositions = parseAndSortInput(input)
-    return optimizeAlignment(sortedPositions)
+    return optimizeAlignment(sortedPositions,this::calculateCost)
   }
 
   override fun part2(input: List<String>): Int {
     val sortedPositions = parseAndSortInput(input)
-    return optimizeAlignment(sortedPositions)
+    return optimizeAlignment(sortedPositions, this::calculatePart2Cost)
   }
 
   override fun check1(input: List<String>): Boolean {
@@ -39,6 +43,6 @@ class Day07 : Day(7) {
   }
 
   override fun check2(input: List<String>): Boolean {
-    return (part2(input) == 1)
+    return (part2(input) == 168)
   }
 }
