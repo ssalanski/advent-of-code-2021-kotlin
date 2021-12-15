@@ -1,7 +1,5 @@
 package aoc
 
-import kotlin.math.absoluteValue
-
 class Day08 : Day(8) {
 
   private fun parseLine(line: String): Pair<List<Set<Char>>, List<Set<Char>>> {
@@ -9,7 +7,7 @@ class Day08 : Day(8) {
   }
 
   override fun part1(input: List<String>): Int {
-    return input.sumOf{ line ->
+    return input.sumOf { line ->
       val (observed, asdf) = parseLine(line)
       countUnique(asdf)
     }
@@ -18,9 +16,21 @@ class Day08 : Day(8) {
   private fun countUnique(asdf: List<Set<Char>>) : Int {
     return asdf.count { (it.size == 2) or (it.size == 3) or (it.size == 4) or (it.size == 7) }
   }
+  private fun ahhh(line: String): Int {
+    val (observed, signal) = parseLine(line)
+    val mapping: Map<Set<Char>, Char> = deduceMapping(observed)
+    return signal.map { mapping.getOrDefault(it,"z") }.joinToString("").toInt()
+  }
 
   override fun part2(input: List<String>): Int {
-    return 0
+    val zxcv = input.map { line ->
+      ahhh(line)
+    }
+    return zxcv.sum()
+  }
+
+  private fun deduceMapping(observations: List<Set<Char>>): Map<Set<Char>,Char> {
+
   }
 
   override fun check1(input: List<String>): Boolean {
@@ -28,6 +38,6 @@ class Day08 : Day(8) {
   }
 
   override fun check2(input: List<String>): Boolean {
-    return (part2(input) == 88888888)
+    return (part2(input) == 61229)
   }
 }
