@@ -3,7 +3,7 @@ package aoc
 class Day08 : Day(8) {
 
   private fun parseLine(line: String): Pair<List<Set<Char>>, List<Set<Char>>> {
-    return line.split('|').map { it.split(" ").map(String::toSet) }.run { first() to last() }
+    return line.split('|').map { it.trim().split(" ").map(String::toSet) }.run { first() to last() }
   }
 
   override fun part1(input: List<String>): Int {
@@ -30,53 +30,73 @@ class Day08 : Day(8) {
   }
 
   private fun deduceMapping(observations: List<Set<Char>>): Map<Set<Char>,Char> {
-//    val mapping = mutableMapOf<Set<Char>,Char>()
-    val invMapping = mutableMapOf<Char,Set<Char>>()
-    observations.first { (it.size == 2) }.let { invMapping['1'] = it } //mapping[it] = '1' }
-    observations.first { (it.size == 3) }.let { invMapping['7'] = it } //mapping[it] = '7' }
-    observations.first { (it.size == 4) }.let { invMapping['4'] = it } //mapping[it] = '4' }
-    observations.first { (it.size == 7) }.let { invMapping['8'] = it } //mapping[it] = '8' }
+    val set1: Set<Char>
+    val set2: Set<Char>
+    val set3: Set<Char>
+    val set4: Set<Char>
+    val set5: Set<Char>
+    val set6: Set<Char>
+    val set7: Set<Char>
+    val set8: Set<Char>
+    val set9: Set<Char>
+    val set0: Set<Char>
+
+    observations.first { (it.size == 2) }.let { set1 = it }
+    observations.first { (it.size == 3) }.let { set7 = it }
+    observations.first { (it.size == 4) }.let { set4 = it }
+    observations.first { (it.size == 7) }.let { set8 = it }
     val segmentC: Char
     val segmentE: Char
     observations.filter { it.size == 6 }.distinct().let { sixes ->
-      assert(sixes.size==2) { "found ${sixes.size} segment sets of size 6, expecting just 2"}
-      val set1 = sixes[0]
-      val set2 = sixes[1]
-      val difference = (set1 - set2)
-      assert(difference.size == 1)
-      val missingChar = difference.first()
-      val otherDifference = (set1 - set2)
-      assert(otherDifference.size == 1)
-      val otherMissingChar = difference.first()
-      if(invMapping['1']?.contains(missingChar) == true) {
-        invMapping['9'] = set1
-        invMapping['6'] = set2
-        segmentC = missingChar
-        segmentE = otherMissingChar
-      } else {
-        invMapping['6'] = set1
-        invMapping['9'] = set2
-        segmentE = missingChar
-        segmentC = otherMissingChar
+      assert(sixes.size==3) { "found ${sixes.size} segment sets of size 6, expecting 3"}
+      sixes.filter { (it - set7 - set4).size == 1 }.let {
+        assert(it.size==1) {"found ${it.size} six-length sets X st X - {7} - {4} = [g], was expecting only 1"}
+        set9 = it[0]
+      }
+      sixes.filter { it != set9 }.let { zeroAndSix ->
+        assert(zeroAndSix.size ==2) {"found ${zeroAndSix.size} six-length sets other than {9}, should have been {0}+{6}"}
+        segmentE = (zeroAndSix[0] - set7 - set4 - set9).first()
+        val setX = zeroAndSix[0]
+        val setY = zeroAndSix[1]
+        if( (setX - setY).intersect(set1).isEmpty() ) {
+          set6 = setX
+          set0 = setY
+        } else {
+          set0 = setX
+          set6 = setY
+        }
+        segmentC = (set0-set6).first()
       }
     }
+
     observations.filter { it.size == 5 }.distinct().let { fives ->
       assert(fives.size == 3) { "found ${fives.size} segment sets of size 5, expecting just 3" }
       fives.filter{!it.contains(segmentC)}.let {
         assert(it.size==1)
-        invMapping['5'] = it[0]
+        set5 = it[0]
       }
       fives.filter{it.contains(segmentE)}.let {
         assert(it.size==1)
-        invMapping['2'] = it[0]
+        set2 = it[0]
       }
       fives.filter{it.contains(segmentC) && !it.contains(segmentE)}.let {
         assert(it.size==1)
-        invMapping['3'] = it[0]
+        set3 = it[0]
       }
     }
 
-    return invMapping.invert()
+    return mapOf(
+      set1 to '1',
+      set2 to '2',
+      set3 to '3',
+      set4 to '4',
+      set5 to '5',
+      set6 to '6',
+      set7 to '7',
+      set8 to '8',
+      set9 to '9',
+      set0 to '0'
+    )
   }
 
   override fun check1(input: List<String>): Boolean {
