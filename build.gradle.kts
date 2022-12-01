@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import kotlin.collections.mutableListOf
 
 plugins {
     application
@@ -11,6 +12,7 @@ repositories {
 
 application {
     mainClass.set("aoc.Runner")
+    applicationDefaultJvmArgs = mutableListOf("-ea")
 }
 
 tasks {
