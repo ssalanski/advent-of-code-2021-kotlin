@@ -2,25 +2,12 @@ package aoc
 
 class Day09 : Day(9) {
   override fun part1(input: List<String>): Int {
-    val heightmap = input.map{ it.map { it.digitToInt() }}
+    val heightMap = HeightMap(input.map{ it.map { it.digitToInt() }})
 
-    val localMinInMap = emptyList<Pair<Int,Int>>().toMutableList()
-    heightmap.forEachIndexed { rowidx, row ->
-      val localMinInRow = getLocalMinIdx(row)
-      localMinInRow.forEach { localMinColIdx ->
-        val isFirstRow = rowidx == 0
-        val isLastRow = rowidx == heightmap.size-1
-        fun prevRowHigher() = (heightmap[rowidx-1][localMinColIdx] > row[localMinColIdx])
-        fun nextRowHigher() = (heightmap[rowidx+1][localMinColIdx] > row[localMinColIdx])
-        if( (isFirstRow || prevRowHigher()) && (isLastRow || nextRowHigher())  ) {
-          localMinInMap.add(Pair(rowidx,localMinColIdx))
-        }
-      }
-    }
 //    println("found ${localMinInMap.size} local minima")
 //    localMinInMap.forEach { println(it) }
 
-    return localMinInMap.map { (r,c) -> heightmap[r][c] }.sumOf { it + 1 }
+    return heightMap.getLowPoints().map { (r,c) -> heightMap[r][c] }.sumOf { it + 1 }
   }
 
   override fun part2(input: List<String>): Int {
@@ -32,8 +19,28 @@ class Day09 : Day(9) {
   }
 
   override fun check2(input: List<String>): Boolean {
-    return (part2(input) == -1)
+    return (part2(input) == 1134)
   }
+}
+
+class HeightMap(hm:List<List<Int>>) : List<List<Int>> by hm {
+  fun getLowPoints(): List<Pair<Int, Int>> {
+    val localMinCoords = emptyList<Pair<Int,Int>>().toMutableList()
+    forEachIndexed { rowidx, row ->
+      val localMinInRow = getLocalMinIdx(row)
+      localMinInRow.forEach { localMinColIdx ->
+        val isFirstRow = rowidx == 0
+        val isLastRow = rowidx == size-1
+        fun prevRowHigher() = (this[rowidx-1][localMinColIdx] > row[localMinColIdx])
+        fun nextRowHigher() = (this[rowidx+1][localMinColIdx] > row[localMinColIdx])
+        if( (isFirstRow || prevRowHigher()) && (isLastRow || nextRowHigher())  ) {
+          localMinCoords.add(Pair(rowidx,localMinColIdx))
+        }
+      }
+    }
+    return localMinCoords
+  }
+
 }
 
 fun getLocalMinIdx(lst: List<Int>): List<Int> {
