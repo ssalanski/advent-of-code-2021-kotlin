@@ -11,7 +11,12 @@ class Day09 : Day(9) {
   }
 
   override fun part2(input: List<String>): Int {
-    return 0
+    val heightMap = HeightMap(input.map { it.map { it.digitToInt() } })
+    return heightMap.getLowPoints().map {
+      heightMap.getBasinAround(it).size
+    }
+      .highest(3)
+      .product()
   }
 
   override fun check1(input: List<String>): Boolean {
@@ -23,7 +28,11 @@ class Day09 : Day(9) {
   }
 }
 
+private fun <E: Comparable<E>> Collection<E>.highest(n: Int): List<E> = sorted().takeLast(n)
+private fun Iterable<Int>.product(): Int = reduce { acc, x -> acc * x }
+
 class HeightMap(hm:List<List<Int>>) : List<List<Int>> by hm {
+  private val width = this[0].size
   fun getLowPoints(): List<Pair<Int, Int>> {
     val localMinCoords = emptyList<Pair<Int,Int>>().toMutableList()
     forEachIndexed { rowidx, row ->
@@ -39,6 +48,29 @@ class HeightMap(hm:List<List<Int>>) : List<List<Int>> by hm {
       }
     }
     return localMinCoords
+  }
+
+  fun getBasinAround(lowpoint: Pair<Int, Int>): Set<Pair<Int,Int>> {
+    var prevSize = 0
+    val basin = mutableSetOf(lowpoint)
+    while(basin.size > prevSize) {
+      prevSize = basin.size
+      basin.toList().forEach { (r, c) ->
+        if ((r > 0) && (this[r - 1][c] < 9)) {
+          basin.add(Pair(r - 1, c))
+        }
+        if ((r < size - 1) && (this[r + 1][c] < 9)) {
+          basin.add(Pair(r + 1, c))
+        }
+        if ((c < width - 1) && (this[r][c + 1] < 9)) {
+          basin.add(Pair(r, c + 1))
+        }
+        if ((c > 0) && (this[r][c - 1] < 9)) {
+          basin.add(Pair(r, c - 1))
+        }
+      }
+    }
+    return basin
   }
 
 }
